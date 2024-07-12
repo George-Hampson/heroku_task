@@ -5,7 +5,7 @@ COPY . /app
 
 
 # Install requirements from file
-RUN pip install -r requirements.txt
+RUN pip install flask
 
 
 # Set the environment variables for version number and build date
