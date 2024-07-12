@@ -13,6 +13,4 @@ def index():
     return render_template('index.html', version=github_run_number)
 
 if __name__ == '__main__':
-    # Use os.environ.get('PORT') to dynamically set the port from Heroku's environment variable
-    port = int(os.environ.get('PORT', 5000))
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))

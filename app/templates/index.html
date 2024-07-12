@@ -3,20 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome</title>
+    <title>Welcome to My Web Page</title>
     <style>
         body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
             font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
         }
-        h1 {
-            color: #333;
+        .welcome-text {
+            text-align: center;
+            color: green;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .datetime {
+            text-align: center;
+            font-size: 18px;
+            color: #555;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to My Website!</h1>
-    <p>This is a very basic web page.</p>
+    <div class="container">
+        <div class="welcome-text">
+            Welcome to my web page
+        </div>
+        <div class="version">
+            Version: {{ version }}
+        </div>
+        <div class="datetime">
+            <!-- JavaScript to display current date and time -->
+            <script>
+                var today = new Date();
+                var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                var dateTime = date+' '+time;
+                document.write(dateTime);
+            </script>
+        </div>
+    </div>
 </body>
 </html>
