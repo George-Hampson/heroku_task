@@ -48,6 +48,15 @@
             position: relative;
             margin-bottom: 20px;
         }
+        .snake {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: black;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999;
+        }
     </style>
 </head>
 <body>
@@ -97,6 +106,48 @@
         cycleTimezones();
         // Update the time every second
         setInterval(updateClock, 1000);
+
+        // Snake follows the cursor
+        const snakeLength = 20;
+        const snakeElements = [];
+
+        for (let i = 0; i < snakeLength; i++) {
+            const snakePart = document.createElement('div');
+            snakePart.className = 'snake';
+            document.body.appendChild(snakePart);
+            snakeElements.push(snakePart);
+        }
+
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function moveSnake() {
+            let tempX = mouseX;
+            let tempY = mouseY;
+
+            snakeElements.forEach((element, index) => {
+                const currentX = parseInt(element.style.left) || tempX;
+                const currentY = parseInt(element.style.top) || tempY;
+
+                element.style.left = tempX + 'px';
+                element.style.top = tempY + 'px';
+
+                const nextX = currentX + (tempX - currentX) * 0.3;
+                const nextY = currentY + (tempY - currentY) * 0.3;
+
+                tempX = nextX;
+                tempY = nextY;
+            });
+
+            requestAnimationFrame(moveSnake);
+        }
+
+        moveSnake();
     </script>
 </body>
 </html>
