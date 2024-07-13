@@ -44,22 +44,10 @@
             color: #05fc43;
             transition: color 0.3s ease;
             position: relative;
+            margin-bottom: 20px;
         }
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-top: 4px solid #05fc43;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .timezone {
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -69,22 +57,37 @@
             DevOps Task
         </div>
         <div class="datetime" id="datetime">
-            <div class="spinner" id="spinner"></div>
+            <div id="clock-utc" class="timezone"></div>
+            <div id="clock-ny" class="timezone"></div>
+            <div id="clock-london" class="timezone"></div>
+            <div id="clock-tokyo" class="timezone"></div>
+            <div id="clock-sydney" class="timezone"></div>
         </div>
     </div>
 
     <script>
-        function updateTime() {
-            var today = new Date();
-            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        function updateClock(elementId, offset) {
+            var now = new Date();
+            var utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            var localTime = new Date(utc + (3600000 * offset));
+            var date = localTime.getFullYear() + '-' + (localTime.getMonth() + 1) + '-' + localTime.getDate();
+            var time = localTime.getHours() + ":" + localTime.getMinutes() + ":" + localTime.getSeconds();
             var dateTime = date + ' ' + time;
-            document.getElementById('datetime').innerHTML = dateTime;
+            document.getElementById(elementId).innerHTML = dateTime;
         }
+
+        function updateTimezones() {
+            updateClock('clock-utc', 0);
+            updateClock('clock-ny', -4); // New York (Eastern Daylight Time)
+            updateClock('clock-london', 1); // London (British Summer Time)
+            updateClock('clock-tokyo', 9); // Tokyo (Japan Standard Time)
+            updateClock('clock-sydney', 10); // Sydney (Australian Eastern Standard Time)
+        }
+
         // Initial call to display the time immediately
-        updateTime();
+        updateTimezones();
         // Update the time every second
-        setInterval(updateTime, 1000);
+        setInterval(updateTimezones, 1000);
     </script>
 </body>
 </html>
