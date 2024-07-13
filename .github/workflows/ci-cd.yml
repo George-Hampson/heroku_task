@@ -47,22 +47,17 @@ jobs:
       id: get_commit_count
       run: echo "::set-output name=commit_count::$(git rev-list --count HEAD)"
 
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        file: app/Dockerfile
-        push: true
-        build-args: |
-          GITHUB_RUN_NUMBER=${{ github.run_number }}
-          GITHUB_COMMIT_COUNT=${{ steps.get_commit_count.outputs.commit_count }}
-        tags: ${{ secrets.DOCKER_USERNAME }}/flaskapp:${{ github.run_number }}
+    - name: Build Docker image
+      run: |
+        docker build -t flaskapp:${{ github.run_number }} .
+        docker tag flaskapp:${{ github.run_number }} registry.heroku.com/${{ secrets.TF_VAR_HEROKU_APP_NAME }}/web
+
+    - name: Push Docker image to Heroku
+      run: |
+        docker push registry.heroku.com/${{ secrets.TF_VAR_HEROKU_APP_NAME }}/web
 
     - name: Deploy to Heroku
       run: |
-        heroku container:login
-        heroku container:push web --app flaskapp-b6
-        heroku container:release web --app flaskapp-b6
+        heroku container:release web --app ${{ secrets.TF_VAR_HEROKU_APP_NAME }}
       env:
         HEROKU_API_KEY: ${{ secrets.TF_VAR_HEROKU_API_KEY }}
-        HEROKU_APP_NAME: flaskapp-b6
