@@ -46,11 +46,17 @@ if __name__ == '__main__':
         f.truncate()
 
     # Build and push Docker image
-    subprocess.run(['docker', 'build', '-t', f'flaskapp:{new_version}', '.'], check=True)
-    subprocess.run(['docker', 'tag', f'flaskapp:{new_version}', f'registry.heroku.com/YOUR_HEROKU_APP_NAME/web'], check=True)
-    subprocess.run(['docker', 'push', f'registry.heroku.com/YOUR_HEROKU_APP_NAME/web'], check=True)
+    subprocess.run(['docker', 'build', '-t', f'flaskapp:{new_version}', '.'],
+                   check=True)
+    subprocess.run(['docker', 'tag', f'flaskapp:{new_version}',
+                    f'registry.heroku.com/YOUR_HEROKU_APP_NAME/web'],
+                    check=True)
+    subprocess.run(['docker', 'push', f'registry.heroku.com/YOUR_HEROKU_APP_NAME/web'],
+                   check=True)
     
     # Deploy to Heroku
-    subprocess.run(['heroku', 'container:release', 'web', '--app', 'YOUR_HEROKU_APP_NAME'], check=True)
+    subprocess.run(['heroku', 'container:release', 'web', '--app',
+                    'YOUR_HEROKU_APP_NAME'],
+                   check=True)
 
     app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
