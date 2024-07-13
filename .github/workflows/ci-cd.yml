@@ -40,17 +40,17 @@ jobs:
     - name: Log in to Heroku Container Registry
       run: echo "$HEROKU_API_KEY" | docker login --username=_ --password-stdin registry.heroku.com
       env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        HEROKU_API_KEY: ${{ secrets.TF_VAR_HEROKU_API_KEY }}
 
     - name: Build Docker image
       run: |
         docker build -t flaskapp:${{ github.run_number }} -f app/Dockerfile .
-        docker tag flaskapp:${{ github.run_number }} registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+        docker tag flaskapp:${{ github.run_number }} registry.heroku.com/${{ secrets.TF_VAR_HEROKU_APP_NAME }}/web
 
     - name: Push Docker image to Heroku
-      run: docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+      run: docker push registry.heroku.com/${{ secrets.TF_VAR_HEROKU_APP_NAME }}/web
 
     - name: Deploy to Heroku
-      run: heroku container:release web --app ${{ secrets.HEROKU_APP_NAME }}
+      run: heroku container:release web --app ${{ secrets.TF_VAR_HEROKU_APP_NAME }}
       env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        HEROKU_API_KEY: ${{ secrets.TF_VAR_HEROKU_API_KEY }}
