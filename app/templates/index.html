@@ -24,6 +24,7 @@
             opacity: 0;
             transform: translateY(20px);
             animation: fadeIn 1s forwards;
+            min-width: 300px;
         }
         @keyframes fadeIn {
             to {
@@ -72,22 +73,27 @@
         ];
         let currentIndex = 0;
 
+        function pad(number) {
+            return number < 10 ? '0' + number : number;
+        }
+
         function updateClock() {
             const now = new Date();
             const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
             const localTime = new Date(utc + (3600000 * timezones[currentIndex].offset));
-            const date = localTime.getFullYear() + '-' + (localTime.getMonth() + 1) + '-' + localTime.getDate();
-            const time = localTime.getHours() + ":" + localTime.getMinutes() + ":" + localTime.getSeconds();
+            const date = localTime.getFullYear() + '-' + pad(localTime.getMonth() + 1) + '-' + pad(localTime.getDate());
+            const time = pad(localTime.getHours()) + ":" + pad(localTime.getMinutes()) + ":" + pad(localTime.getSeconds());
             const dateTime = `${timezones[currentIndex].city}: ${date} ${time}`;
             const datetimeElement = document.getElementById('datetime');
             datetimeElement.innerHTML = dateTime;
             datetimeElement.style.color = timezones[currentIndex].color;
+            document.querySelector('.container').style.minWidth = `${datetimeElement.offsetWidth}px`;
         }
 
         function cycleTimezones() {
             updateClock();
             currentIndex = (currentIndex + 1) % timezones.length;
-            setTimeout(cycleTimezones, 3000);
+            setTimeout(cycleTimezones, 6000); // Change every 6 seconds
         }
 
         // Initial call to start the cycle
