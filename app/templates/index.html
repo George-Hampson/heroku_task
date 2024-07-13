@@ -26,6 +26,11 @@
             font-size: 18px;
             color: #05fc43;
         }
+        .version {
+            font-size: 18px;
+            color: #05fc43;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -42,6 +47,9 @@
                 var dateTime = date + ' ' + time;
                 document.write(dateTime);
             </script>
+        </div>
+        <div class="version">
+            Version: {{ version }}
         </div>
     </div>
 </body>
