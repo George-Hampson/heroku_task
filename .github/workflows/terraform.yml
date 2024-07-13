@@ -14,6 +14,7 @@ jobs:
 
     env:
       TF_VAR_heroku_api_key: ${{ secrets.TF_VAR_heroku_api_key }}
+      TF_VAR_heroku_email: ${{ secrets.TF_VAR_heroku_email }}
 
     steps:
       - name: Checkout code
@@ -23,19 +24,15 @@ jobs:
         uses: hashicorp/setup-terraform@v1
 
       - name: Initialize Terraform
-        working-directory: terraform
         run: terraform init
 
       - name: Validate Terraform configuration
-        working-directory: terraform
         run: terraform validate
 
       - name: Plan Terraform changes
         id: plan
-        working-directory: terraform
         run: terraform plan -out=tfplan
 
       - name: Apply Terraform changes
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        working-directory: terraform
         run: terraform apply -auto-approve tfplan
