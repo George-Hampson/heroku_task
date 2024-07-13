@@ -64,5 +64,5 @@ jobs:
         heroku container:push web --app flaskapp-b6
         heroku container:release web --app flaskapp-b6
       env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        HEROKU_API_KEY: ${{ secrets.TF_VAR_HEROKU_API_KEY }}
         HEROKU_APP_NAME: flaskapp-b6
