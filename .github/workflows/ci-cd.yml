@@ -45,7 +45,7 @@ jobs:
 
     - name: Get commit count
       id: get_commit_count
-      run: echo "COMMIT_COUNT=$(git rev-list --count --all)" >> $GITHUB_ENV
+      run: echo "::set-output name=commit_count::$(git rev-list --count HEAD)"
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
@@ -55,5 +55,14 @@ jobs:
         push: true
         build-args: |
           GITHUB_RUN_NUMBER=${{ github.run_number }}
-          GITHUB_COMMIT_COUNT=${{ env.COMMIT_COUNT }}
+          GITHUB_COMMIT_COUNT=${{ steps.get_commit_count.outputs.commit_count }}
         tags: ${{ secrets.DOCKER_USERNAME }}/flaskapp:${{ github.run_number }}
+
+    - name: Deploy to Heroku
+      run: |
+        heroku container:login
+        heroku container:push web --app flaskapp-b6
+        heroku container:release web --app flaskapp-b6
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        HEROKU_APP_NAME: flaskapp-b6
