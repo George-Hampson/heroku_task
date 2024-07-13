@@ -14,27 +14,37 @@
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
         }
-        .welcome-text {
+        .container {
             text-align: center;
+        }
+        .welcome-text {
             color: black;
             font-size: 24px;
             margin-bottom: 20px;
         }
-        .datetime, .version {
-            text-align: center;
+        .version {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .datetime {
             font-size: 18px;
             color: #05fc43;
+            margin-bottom: 20px;
+        }
+        .shortlog {
+            font-size: 18px;
+            color: #333;
         }
         table {
             width: 100%;
-            margin-top: 20px;
             border-collapse: collapse;
         }
-        table, th, td {
-            border: 1px solid black;
-        }
         th, td {
+            border: 1px solid #ddd;
             padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
             text-align: left;
         }
     </style>
@@ -47,9 +57,6 @@
         <div class="version">
             Version: {{ version }}
         </div>
-        <div class="commit-count">
-            Commit Count: {{ commit_count }}
-        </div>
         <div class="datetime">
             <!-- JavaScript to display current date and time -->
             <script>
@@ -60,18 +67,22 @@
                 document.write(dateTime);
             </script>
         </div>
-        <table>
-            <tr>
-                <th>Commit Count</th>
-                <th>Author</th>
-            </tr>
-            {% for count, author in shortlog_data %}
-            <tr>
-                <td>{{ count }}</td>
-                <td>{{ author }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+        <div class="shortlog">
+            <table>
+                <tr>
+                    <th>Commit Count</th>
+                    <th>Author</th>
+                </tr>
+                {% for line in git_shortlog.split('\n') %}
+                {% if line %}
+                <tr>
+                    <td>{{ line.split()[0] }}</td>
+                    <td>{{ ' '.join(line.split()[1:]) }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </table>
+        </div>
     </div>
 </body>
 </html>

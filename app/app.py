@@ -8,26 +8,47 @@ app = Flask(__name__)
 def get_git_shortlog():
     try:
         result = subprocess.run(['git', 'shortlog', '-s'],
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE, text=True)
-        if result.returncode != 0:
-            raise Exception(result.stderr)
-        shortlog = result.stdout.strip().split('\n')
-        return [line.split('\t') for line in shortlog]
-    except Exception as e:
-        print(f"Error getting git shortlog: {e}")  # Log the exception
-        return []
+                                capture_output=True, text=True, check=True)
+        return result.stdout
+    except FileNotFoundError:
+        return "Git not found"
 
 
 @app.route('/')
 def index():
+    # Get GitHub run number from environment variable, defaulting to 'Local'
     github_run_number = os.getenv('GITHUB_RUN_NUMBER', 'Local')
-    commit_count = os.getenv('GITHUB_COMMIT_COUNT', 'Unknown')
-    shortlog_data = get_git_shortlog()
+
+    # Get Git shortlog
+    git_shortlog = get_git_shortlog()
+
+    # Render the template 'index.html' and pass variables to it
     return render_template('index.html', version=github_run_number,
-                           commit_count=commit_count,
-                           shortlog_data=shortlog_data)
+                           git_shortlog=git_shortlog)
 
 
 if __name__ == '__main__':
+    # Increment version
+    with open('VERSION', 'r+') as f:
+        version = f.read().strip()
+        major, minor, patch = map(int, version.split('.'))
+        patch += 1
+        new_version = f'{major}.{minor}.{patch}'
+        f.seek(0)
+        f.write(new_version)
+        f.truncate()
+    # Build and push Docker image
+    subprocess.run(['docker', 'build', '-t', f'flaskapp:{new_version}', '.'],
+                   check=True)
+    subprocess.run(['docker', 'tag', f'flaskapp:{new_version}',
+                    f'registry.heroku.com/YOUR_HEROKU_APP_NAME/web'],
+                    check=True)
+    subprocess.run(['docker', 'push',
+                    f'registry.heroku.com/YOUR_HEROKU_APP_NAME/web'],
+                   check=True)
+    # Deploy to Heroku
+    subprocess.run(['heroku', 'container:release', 'web', '--app',
+                    'YOUR_HEROKU_APP_NAME'],
+                   check=True)
+
     app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
