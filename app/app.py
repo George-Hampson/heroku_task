@@ -15,6 +15,7 @@ def get_git_shortlog():
         shortlog = result.stdout.strip().split('\n')
         return [line.split('\t') for line in shortlog]
     except Exception as e:
+        print(f"Error getting git shortlog: {e}")  # Log the exception
         return []
 
 
