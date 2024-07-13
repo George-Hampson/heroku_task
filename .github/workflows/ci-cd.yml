@@ -28,6 +28,7 @@ jobs:
 
     - name: Run code linting
       run: |
+        python -m pip install --upgrade pip
         flake8 app/app.py
         echo "Running tests..."
 
