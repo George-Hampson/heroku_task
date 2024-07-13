@@ -66,7 +66,7 @@
 <body>
     <div class="container">
         <div class="title">
-            DevOps Task ({{ date }})
+            DevOps Task
         </div>
         <div class="datetime" id="datetime">
             <div class="spinner" id="spinner"></div>
@@ -76,17 +76,17 @@
     <script>
         function updateTime() {
             var today = new Date();
-            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            var dateTime = date+' '+time;
+            var dateTime = date + ' ' + time;
             document.getElementById('datetime').innerHTML = dateTime;
         }
         // Initial call to display the time immediately
         updateTime();
-        // Remove the spinner once the time is loaded
-        document.getElementById('spinner').style.display = 'none';
         // Update the time every second
         setInterval(updateTime, 1000);
+        // Remove the spinner once the time is loaded
+        document.getElementById('spinner').style.display = 'none';
     </script>
 </body>
 </html>
