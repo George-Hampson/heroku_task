@@ -48,34 +48,6 @@
             position: relative;
             margin-bottom: 20px;
         }
-        .progress-bar {
-            width: 100%;
-            height: 5px;
-            background-color: #ddd;
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-        .progress-bar-inner {
-            height: 100%;
-            background-color: black;
-            width: 0;
-        }
-        .snake {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: red;
-            border-radius: 50%;
-            animation: moveSnake 5s infinite;
-        }
-        @keyframes moveSnake {
-            0% { transform: translate(0, 0); }
-            25% { transform: translate(80vw, 0); }
-            50% { transform: translate(80vw, 80vh); }
-            75% { transform: translate(0, 80vh); }
-            100% { transform: translate(0, 0); }
-        }
     </style>
 </head>
 <body>
@@ -87,11 +59,7 @@
             <!-- Empty line -->
         </div>
         <div class="datetime" id="datetime"></div>
-        <div class="progress-bar">
-            <div class="progress-bar-inner" id="progress-bar-inner"></div>
-        </div>
     </div>
-    <div class="snake" id="snake"></div>
 
     <script>
         const timezones = [
@@ -125,20 +93,8 @@
             setTimeout(cycleTimezones, 6000); // Change every 6 seconds
         }
 
-        function startLoadingBar() {
-            const progressBarInner = document.getElementById('progress-bar-inner');
-            progressBarInner.style.transition = 'width 6s linear';
-            progressBarInner.style.width = '100%';
-            setTimeout(() => {
-                progressBarInner.style.transition = 'none';
-                progressBarInner.style.width = '0';
-                startLoadingBar();
-            }, 6000);
-        }
-
         // Initial call to start the cycle
         cycleTimezones();
-        startLoadingBar();
         // Update the time every second
         setInterval(updateClock, 1000);
     </script>
