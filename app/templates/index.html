@@ -14,14 +14,20 @@
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
         }
-        .welcome-text {
+        .container {
             text-align: center;
-            color: green;
+        }
+        .welcome-text {
+            color: black;
             font-size: 24px;
             margin-bottom: 20px;
         }
+        .version {
+            font-size: 18px;
+            color: green;
+            margin-bottom: 10px;
+        }
         .datetime {
-            text-align: center;
             font-size: 18px;
             color: #05fc43;
         }
@@ -30,10 +36,10 @@
 <body>
     <div class="container">
         <div class="welcome-text">
-            Welcome to my web page
+            DevOps Task ({{ current_date }})
         </div>
         <div class="version">
-            Version: {{ version }}
+            Version: {{ commit_count }}
         </div>
         <div class="datetime">
             <!-- JavaScript to display current date and time -->
