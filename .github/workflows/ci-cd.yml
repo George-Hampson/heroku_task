@@ -45,7 +45,12 @@ jobs:
 
     - name: Get commit count
       id: get_commit_count
-      run: echo "::set-output name=commit_count::$(git rev-list --count HEAD)"
+      run: echo "commit_count=$(git rev-list --count HEAD)" >> $GITHUB_ENV
+
+    - name: Log in to Heroku Container Registry
+      run: heroku container:login
+      env:
+        HEROKU_API_KEY: ${{ secrets.TF_VAR_HEROKU_API_KEY }}
 
     - name: Build Docker image
       run: |
