@@ -28,6 +28,7 @@ def get_shortlog():
         if result.returncode == 0:
             shortlog = result.stdout.decode('utf-8').strip().split('\n')
             shortlog_list = [line.split('\t') for line in shortlog if line]
+            print("Shortlog List: ", shortlog_list)  # Debugging statement
             return shortlog_list
         else:
             print("Error in get_shortlog: ", result.stderr.decode('utf-8'))
@@ -41,6 +42,8 @@ def get_shortlog():
 def index():
     commit_count = get_commit_count()
     shortlog_list = get_shortlog()
+    print("Commit Count: ", commit_count)  # Debugging statement
+    print("Shortlog List at Index: ", shortlog_list)  # Debugging statement
     return render_template('index.html', version=commit_count,
                            shortlog=shortlog_list)
 
