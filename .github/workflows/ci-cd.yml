@@ -28,8 +28,7 @@ jobs:
 
     - name: Run code linting
       run: |
-        pip install flake8
-        flake8 .
+        flake8 app/
         echo "Running tests..."
 
     - name: Set up Docker Buildx
