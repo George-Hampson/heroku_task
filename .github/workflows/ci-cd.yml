@@ -70,15 +70,4 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t flaskapp:${{ env.NEW_VERSION }} -f app/Dockerfile .
-        docker tag flaskapp:${{ env.NEW_VERSION }} registry.heroku.com/${{ secrets.TF_VAR_HEROKU_APP_NAME }}/web
-
-    - name: Push Docker image to Heroku
-      run: |
-        docker push registry.heroku.com/${{ secrets.TF_VAR_HEROKU_APP_NAME }}/web
-
-    - name: Deploy to Heroku
-      run: |
-        heroku container:release web --app ${{ secrets.TF_VAR_HEROKU_APP_NAME }}
-      env:
-        HEROKU_API_KEY: ${{ secrets.TF_VAR_HEROKU_API_KEY }}
+        doc
