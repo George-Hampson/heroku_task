@@ -35,8 +35,6 @@
             text-align: center;
             color: black;
             transition: color 0.3s ease;
-            font-size: 24px;
-            margin-bottom: 20px;
         }
         .title:hover {
             color: green;
@@ -63,16 +61,6 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        .timezones {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .timezone {
-            border-top: 1px solid #ccc;
-            padding-top: 10px;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
@@ -80,20 +68,8 @@
         <div class="title">
             DevOps Task ({{ date }})
         </div>
-        <div class="timezones">
-            <div class="datetime" id="datetime"></div>
-            <div class="timezone">
-                <div id="ny-time"></div>
-            </div>
-            <div class="timezone">
-                <div id="london-time"></div>
-            </div>
-            <div class="timezone">
-                <div id="tokyo-time"></div>
-            </div>
-            <div class="timezone">
-                <div id="sydney-time"></div>
-            </div>
+        <div class="datetime" id="datetime">
+            <div class="spinner" id="spinner"></div>
         </div>
     </div>
 
@@ -104,18 +80,6 @@
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             var dateTime = date+' '+time;
             document.getElementById('datetime').innerHTML = dateTime;
-
-            var nyTime = new Date().toLocaleString("en-US", {timeZone: "America/New_York"});
-            document.getElementById('ny-time').innerHTML = "New York: " + nyTime;
-
-            var londonTime = new Date().toLocaleString("en-GB", {timeZone: "Europe/London"});
-            document.getElementById('london-time').innerHTML = "London: " + londonTime;
-
-            var tokyoTime = new Date().toLocaleString("ja-JP", {timeZone: "Asia/Tokyo"});
-            document.getElementById('tokyo-time').innerHTML = "Tokyo: " + tokyoTime;
-
-            var sydneyTime = new Date().toLocaleString("en-AU", {timeZone: "Australia/Sydney"});
-            document.getElementById('sydney-time').innerHTML = "Sydney: " + sydneyTime;
         }
         // Initial call to display the time immediately
         updateTime();
