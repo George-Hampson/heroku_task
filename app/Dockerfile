@@ -16,6 +16,7 @@ EXPOSE 5000
 # Set environment variables
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
+ENV GITHUB_COMMIT_COUNT=${GITHUB_COMMIT_COUNT}
 
 # Run the application
 CMD flask run --host=0.0.0.0 --port=${PORT:-5000}
