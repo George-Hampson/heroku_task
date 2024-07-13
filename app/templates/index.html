@@ -80,9 +80,10 @@
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             var dateTime = date + ' ' + time;
             document.getElementById('datetime').innerHTML = dateTime;
-            document.getElementById('spinner').style.display = 'none';
         }
+        // Initial call to display the time immediately
         updateTime();
+        // Update the time every second
         setInterval(updateTime, 1000);
     </script>
 </body>
