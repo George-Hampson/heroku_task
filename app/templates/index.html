@@ -56,13 +56,8 @@
         }
         .progress-bar-inner {
             height: 100%;
-            background-color: #4caf50;
+            background-color: black;
             width: 0;
-            animation: loading 6s linear infinite;
-        }
-        @keyframes loading {
-            0% { width: 0; }
-            100% { width: 100%; }
         }
     </style>
 </head>
@@ -71,9 +66,12 @@
         <div class="title">
             DevOps Task
         </div>
+        <div class="title">
+            <!-- Empty line -->
+        </div>
         <div class="datetime" id="datetime"></div>
         <div class="progress-bar">
-            <div class="progress-bar-inner"></div>
+            <div class="progress-bar-inner" id="progress-bar-inner"></div>
         </div>
     </div>
 
@@ -109,8 +107,20 @@
             setTimeout(cycleTimezones, 6000); // Change every 6 seconds
         }
 
+        function startLoadingBar() {
+            const progressBarInner = document.getElementById('progress-bar-inner');
+            progressBarInner.style.transition = 'width 6s linear';
+            progressBarInner.style.width = '100%';
+            setTimeout(() => {
+                progressBarInner.style.transition = 'none';
+                progressBarInner.style.width = '0';
+                startLoadingBar();
+            }, 6000);
+        }
+
         // Initial call to start the cycle
         cycleTimezones();
+        startLoadingBar();
         // Update the time every second
         setInterval(updateClock, 1000);
     </script>
