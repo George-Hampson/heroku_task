@@ -11,16 +11,67 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background: linear-gradient(135deg, #f0f0f0, #a0a0a0);
             font-family: Arial, sans-serif;
         }
         .container {
             text-align: center;
             color: black;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s forwards;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .title {
+            text-align: center;
+            color: black;
+            transition: color 0.3s ease;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .title:hover {
+            color: green;
         }
         .datetime {
             font-size: 18px;
             color: #05fc43;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #05fc43;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .timezones {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .timezone {
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -29,8 +80,20 @@
         <div class="title">
             DevOps Task ({{ date }})
         </div>
-        <div class="datetime" id="datetime">
-            <!-- JavaScript to display current date and time -->
+        <div class="timezones">
+            <div class="datetime" id="datetime"></div>
+            <div class="timezone">
+                <div id="ny-time"></div>
+            </div>
+            <div class="timezone">
+                <div id="london-time"></div>
+            </div>
+            <div class="timezone">
+                <div id="tokyo-time"></div>
+            </div>
+            <div class="timezone">
+                <div id="sydney-time"></div>
+            </div>
         </div>
     </div>
 
@@ -41,9 +104,23 @@
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             var dateTime = date+' '+time;
             document.getElementById('datetime').innerHTML = dateTime;
+
+            var nyTime = new Date().toLocaleString("en-US", {timeZone: "America/New_York"});
+            document.getElementById('ny-time').innerHTML = "New York: " + nyTime;
+
+            var londonTime = new Date().toLocaleString("en-GB", {timeZone: "Europe/London"});
+            document.getElementById('london-time').innerHTML = "London: " + londonTime;
+
+            var tokyoTime = new Date().toLocaleString("ja-JP", {timeZone: "Asia/Tokyo"});
+            document.getElementById('tokyo-time').innerHTML = "Tokyo: " + tokyoTime;
+
+            var sydneyTime = new Date().toLocaleString("en-AU", {timeZone: "Australia/Sydney"});
+            document.getElementById('sydney-time').innerHTML = "Sydney: " + sydneyTime;
         }
         // Initial call to display the time immediately
         updateTime();
+        // Remove the spinner once the time is loaded
+        document.getElementById('spinner').style.display = 'none';
         // Update the time every second
         setInterval(updateTime, 1000);
     </script>
