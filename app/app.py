@@ -7,8 +7,12 @@ app = Flask(__name__)
 
 def get_git_shortlog():
     try:
-        result = subprocess.run(['git', 'shortlog', '-s'],
-                                capture_output=True, text=True, check=True)
+        result = subprocess.run(
+            ['git', 'shortlog', '-s'],
+            capture_output=True,
+            text=True,
+            check=True
+        )
         return result.stdout
     except FileNotFoundError:
         return "Git not found"
@@ -23,8 +27,11 @@ def index():
     git_shortlog = get_git_shortlog()
 
     # Render the template 'index.html' and pass variables to it
-    return render_template('index.html', version=github_run_number,
-                           git_shortlog=git_shortlog)
+    return render_template(
+        'index.html',
+        version=github_run_number,
+        git_shortlog=git_shortlog
+    )
 
 
 if __name__ == '__main__':
@@ -37,18 +44,13 @@ if __name__ == '__main__':
         f.seek(0)
         f.write(new_version)
         f.truncate()
+
     # Build and push Docker image
-    subprocess.run(['docker', 'build', '-t', f'flaskapp:{new_version}', '.'],
-                   check=True)
-    subprocess.run(['docker', 'tag', f'flaskapp:{new_version}',
-                    f'registry.heroku.com/YOUR_HEROKU_APP_NAME/web'],
-                    check=True)
-    subprocess.run(['docker', 'push',
-                    f'registry.heroku.com/YOUR_HEROKU_APP_NAME/web'],
-                   check=True)
+    subprocess.run(['docker', 'build', '-t', f'flaskapp:{new_version}', '.'], check=True)
+    subprocess.run(['docker', 'tag', f'flaskapp:{new_version}', f'registry.heroku.com/YOUR_HEROKU_APP_NAME/web'], check=True)
+    subprocess.run(['docker', 'push', f'registry.heroku.com/YOUR_HEROKU_APP_NAME/web'], check=True)
+    
     # Deploy to Heroku
-    subprocess.run(['heroku', 'container:release', 'web', '--app',
-                    'YOUR_HEROKU_APP_NAME'],
-                   check=True)
+    subprocess.run(['heroku', 'container:release', 'web', '--app', 'YOUR_HEROKU_APP_NAME'], check=True)
 
     app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
