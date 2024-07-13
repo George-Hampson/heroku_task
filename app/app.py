@@ -36,7 +36,7 @@ def index():
 
 if __name__ == '__main__':
     # Increment version
-    with open('VERSION', 'r+') as f:
+    with open('VERSION.txt', 'r+') as f:
         version = f.read().strip()
         major, minor, patch = map(int, version.split('.'))
         patch += 1
