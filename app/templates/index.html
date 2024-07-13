@@ -41,13 +41,28 @@
         }
         .datetime {
             font-size: 18px;
-            color: #05fc43;
             transition: color 0.3s ease;
             position: relative;
             margin-bottom: 20px;
         }
         .timezone {
             margin-top: 10px;
+            font-size: 16px;
+        }
+        .utc {
+            color: #ff5733;
+        }
+        .ny {
+            color: #33ff57;
+        }
+        .london {
+            color: #3357ff;
+        }
+        .tokyo {
+            color: #ff33a6;
+        }
+        .sydney {
+            color: #ffd700;
         }
     </style>
 </head>
@@ -57,11 +72,11 @@
             DevOps Task
         </div>
         <div class="datetime" id="datetime">
-            <div id="clock-utc" class="timezone"></div>
-            <div id="clock-ny" class="timezone"></div>
-            <div id="clock-london" class="timezone"></div>
-            <div id="clock-tokyo" class="timezone"></div>
-            <div id="clock-sydney" class="timezone"></div>
+            <div id="clock-utc" class="timezone utc">UTC 🕰️</div>
+            <div id="clock-ny" class="timezone ny">New York 🇺🇸</div>
+            <div id="clock-london" class="timezone london">London 🇬🇧</div>
+            <div id="clock-tokyo" class="timezone tokyo">Tokyo 🇯🇵</div>
+            <div id="clock-sydney" class="timezone sydney">Sydney 🇦🇺</div>
         </div>
     </div>
 
