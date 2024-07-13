@@ -48,21 +48,10 @@
         .timezone {
             margin-top: 10px;
             font-size: 16px;
+            display: none;
         }
-        .utc {
-            color: #ff5733;
-        }
-        .ny {
-            color: #33ff57;
-        }
-        .london {
-            color: #3357ff;
-        }
-        .tokyo {
-            color: #ff33a6;
-        }
-        .sydney {
-            color: #ffd700;
+        .show {
+            display: block;
         }
     </style>
 </head>
@@ -71,38 +60,40 @@
         <div class="title">
             DevOps Task
         </div>
-        <div class="datetime" id="datetime">
-            <div id="clock-utc" class="timezone utc">UTC 🕰️</div>
-            <div id="clock-ny" class="timezone ny">New York 🇺🇸</div>
-            <div id="clock-london" class="timezone london">London 🇬🇧</div>
-            <div id="clock-tokyo" class="timezone tokyo">Tokyo 🇯🇵</div>
-            <div id="clock-sydney" class="timezone sydney">Sydney 🇦🇺</div>
-        </div>
+        <div class="datetime" id="datetime"></div>
     </div>
 
     <script>
-        function updateClock(elementId, offset) {
-            var now = new Date();
-            var utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-            var localTime = new Date(utc + (3600000 * offset));
-            var date = localTime.getFullYear() + '-' + (localTime.getMonth() + 1) + '-' + localTime.getDate();
-            var time = localTime.getHours() + ":" + localTime.getMinutes() + ":" + localTime.getSeconds();
-            var dateTime = date + ' ' + time;
-            document.getElementById(elementId).innerHTML = dateTime;
+        const timezones = [
+            { city: "London 🇬🇧", offset: 1, color: "#3357ff" },
+            { city: "New York 🇺🇸", offset: -4, color: "#33ff57" },
+            { city: "Tokyo 🇯🇵", offset: 9, color: "#ff33a6" },
+            { city: "Sydney 🇦🇺", offset: 10, color: "#ffd700" }
+        ];
+        let currentIndex = 0;
+
+        function updateClock() {
+            const now = new Date();
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const localTime = new Date(utc + (3600000 * timezones[currentIndex].offset));
+            const date = localTime.getFullYear() + '-' + (localTime.getMonth() + 1) + '-' + localTime.getDate();
+            const time = localTime.getHours() + ":" + localTime.getMinutes() + ":" + localTime.getSeconds();
+            const dateTime = `${timezones[currentIndex].city}: ${date} ${time}`;
+            const datetimeElement = document.getElementById('datetime');
+            datetimeElement.innerHTML = dateTime;
+            datetimeElement.style.color = timezones[currentIndex].color;
         }
 
-        function updateTimezones() {
-            updateClock('clock-utc', 0);
-            updateClock('clock-ny', -4); // New York (Eastern Daylight Time)
-            updateClock('clock-london', 1); // London (British Summer Time)
-            updateClock('clock-tokyo', 9); // Tokyo (Japan Standard Time)
-            updateClock('clock-sydney', 10); // Sydney (Australian Eastern Standard Time)
+        function cycleTimezones() {
+            updateClock();
+            currentIndex = (currentIndex + 1) % timezones.length;
+            setTimeout(cycleTimezones, 3000);
         }
 
-        // Initial call to display the time immediately
-        updateTimezones();
+        // Initial call to start the cycle
+        cycleTimezones();
         // Update the time every second
-        setInterval(updateTimezones, 1000);
+        setInterval(updateClock, 1000);
     </script>
 </body>
 </html>
