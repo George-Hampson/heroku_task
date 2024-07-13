@@ -16,8 +16,8 @@ def index():
     current_date = datetime.now().strftime('%Y-%m-%d')
 
     # Render the template 'index.html' and pass variables to it
-    return render_template('index.html', version=github_run_number, 
-                           commit_count=commit_count, 
+    return render_template('index.html', version=github_run_number,
+                           commit_count=commit_count,
                            current_date=current_date)
 
 
