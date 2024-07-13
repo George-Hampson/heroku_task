@@ -7,6 +7,7 @@
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -30,6 +31,20 @@
             font-size: 18px;
             color: #05fc43;
         }
+        .shortlog-table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 50%;
+        }
+        .shortlog-table th, .shortlog-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        .shortlog-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -50,6 +65,22 @@
                 document.write(dateTime);
             </script>
         </div>
+        <table class="shortlog-table">
+            <thead>
+                <tr>
+                    <th>Commit Count</th>
+                    <th>Author</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in shortlog %}
+                <tr>
+                    <td>{{ entry[0] }}</td>
+                    <td>{{ entry[1] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </body>
 </html>
