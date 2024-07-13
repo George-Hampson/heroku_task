@@ -6,24 +6,41 @@ app = Flask(__name__)
 
 
 def get_commit_count():
-    result = subprocess.run(['git', 'rev-list', '--count', 'HEAD'],
-                            stdout=subprocess.PIPE)
-    return result.stdout.decode('utf-8').strip()
+    try:
+        result = subprocess.run(['git', 'rev-list', '--count', 'HEAD'],
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE)
+        if result.returncode == 0:
+            return result.stdout.decode('utf-8').strip()
+        else:
+            print("Error in get_commit_count: ", result.stderr.decode('utf-8'))
+            return "0"
+    except Exception as e:
+        print("Exception in get_commit_count: ", e)
+        return "0"
 
 
 def get_shortlog():
-    result = subprocess.run(['git', 'shortlog', '-s'],
-                            stdout=subprocess.PIPE)
-    shortlog = result.stdout.decode('utf-8').strip().split('\n')
-    shortlog_list = [line.split('\t') for line in shortlog if line]
-    return shortlog_list
+    try:
+        result = subprocess.run(['git', 'shortlog', '-s'],
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE)
+        if result.returncode == 0:
+            shortlog = result.stdout.decode('utf-8').strip().split('\n')
+            shortlog_list = [line.split('\t') for line in shortlog if line]
+            return shortlog_list
+        else:
+            print("Error in get_shortlog: ", result.stderr.decode('utf-8'))
+            return []
+    except Exception as e:
+        print("Exception in get_shortlog: ", e)
+        return []
 
 
 @app.route('/')
 def index():
     commit_count = get_commit_count()
     shortlog_list = get_shortlog()
-
     return render_template('index.html', version=commit_count,
                            shortlog=shortlog_list)
 
