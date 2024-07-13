@@ -50,7 +50,7 @@
 <body>
     <div class="container">
         <div class="welcome-text">
-            DevOps Task ({{ version }})
+            DevOps Task
         </div>
         <div class="version">
             Version: {{ version }}
@@ -65,22 +65,7 @@
                 document.write(dateTime);
             </script>
         </div>
-        <table class="shortlog-table">
-            <thead>
-                <tr>
-                    <th>Commit Count</th>
-                    <th>Author</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for entry in shortlog %}
-                <tr>
-                    <td>{{ entry[0] }}</td>
-                    <td>{{ entry[1] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+
     </div>
 </body>
 </html>
