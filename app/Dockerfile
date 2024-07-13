@@ -10,10 +10,16 @@ COPY . .
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port 5000 for local testing
+# Expose port 5000 to the outside world (not necessary for Heroku, but good for local testing)
 EXPOSE 5000
 
+# Accept build arguments
+ARG GITHUB_RUN_NUMBER
+ARG GITHUB_COMMIT_COUNT
+
 # Set environment variables
+ENV GITHUB_RUN_NUMBER=${GITHUB_RUN_NUMBER}
+ENV GITHUB_COMMIT_COUNT=${GITHUB_COMMIT_COUNT}
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
