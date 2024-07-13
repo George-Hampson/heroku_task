@@ -7,7 +7,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     # Get the version from the version.txt file
-    version_file_path = os.path.join(os.path.dirname(__file__), 'version.txt')
+    version_file_path = os.path.join(os.path.dirname(__file__), 'app/version.txt')
     try:
         with open(version_file_path, 'r') as file:
             version = file.read().strip()
