@@ -7,7 +7,6 @@
     <style>
         body {
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -21,51 +20,58 @@
             font-size: 24px;
             margin-bottom: 20px;
         }
-        .version {
+        .datetime, .version {
             text-align: center;
             font-size: 18px;
             color: #05fc43;
         }
-        .datetime {
-            text-align: center;
-            font-size: 18px;
-            color: #05fc43;
-        }
-        .shortlog-table {
+        table {
+            width: 100%;
             margin-top: 20px;
             border-collapse: collapse;
-            width: 50%;
         }
-        .shortlog-table th, .shortlog-table td {
-            border: 1px solid #ddd;
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
             padding: 8px;
-            text-align: center;
-        }
-        .shortlog-table th {
-            background-color: #4CAF50;
-            color: white;
+            text-align: left;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="welcome-text">
-            DevOps Task
+            DevOps Task ({{ date }})
         </div>
         <div class="version">
             Version: {{ version }}
+        </div>
+        <div class="commit-count">
+            Commit Count: {{ commit_count }}
         </div>
         <div class="datetime">
             <!-- JavaScript to display current date and time -->
             <script>
                 var today = new Date();
-                var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
                 var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                var dateTime = date+' '+time;
+                var dateTime = date + ' ' + time;
                 document.write(dateTime);
             </script>
         </div>
-
+        <table>
+            <tr>
+                <th>Commit Count</th>
+                <th>Author</th>
+            </tr>
+            {% for count, author in shortlog_data %}
+            <tr>
+                <td>{{ count }}</td>
+                <td>{{ author }}</td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
 </body>
 </html>
