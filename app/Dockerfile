@@ -10,7 +10,7 @@ COPY . .
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port 5000 to the outside world (not necessary for Heroku, but good for local testing)
+# Expose port 5000 for local testing
 EXPOSE 5000
 
 # Set environment variables
