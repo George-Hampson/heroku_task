@@ -12,6 +12,9 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
 
+    env:
+      TF_VAR_heroku_api_key: ${{ secrets.TF_VAR_heroku_api_key }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
