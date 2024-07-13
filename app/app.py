@@ -6,16 +6,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    # Get the version from the version.txt file
-    version_file_path = os.path.join(os.path.dirname(__file__), 'version.txt')
-    try:
-        with open(version_file_path, 'r') as file:
-            version = file.read().strip()
-    except FileNotFoundError:
-        version = '0.1.0'
-
-    # Render the template 'index.html' and pass variables to it
-    return render_template('index.html', version=version)
+    # Render the template 'index.html'
+    return render_template('index.html')
 
 
 if __name__ == '__main__':

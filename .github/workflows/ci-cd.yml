@@ -43,31 +43,17 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Get current version
-      id: get_version
-      run: echo "VERSION=$(cat app/version.txt)" >> $GITHUB_ENV
-
-    - name: Increment version
-      id: increment_version
-      run: |
-        VERSION=$(cat app/version.txt)
-        IFS='.' read -ra VERSION_PARTS <<< "$VERSION"
-        PATCH_VERSION=${VERSION_PARTS[2]}
-        NEW_PATCH_VERSION=$((PATCH_VERSION + 1))
-        NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.$NEW_PATCH_VERSION"
-        echo $NEW_VERSION > app/version.txt
-        echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
-
-    - name: Commit and push new version
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add app/version.txt
-        git commit -m "Increment version to ${{ env.NEW_VERSION }}"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Build Docker image
       run: |
-        doc
+        docker build -t flaskapp:${{ github.run_number }} -f app/Dockerfile .
+        docker tag flaskapp:${{ github.run_number }} registry.heroku.com/${{ secrets.TF_VAR_HEROKU_APP_NAME }}/web
+
+    - name: Push Docker image to Heroku
+      run: |
+        docker push registry.heroku.com/${{ secrets.TF_VAR_HEROKU_APP_NAME }}/web
+
+    - name: Deploy to Heroku
+      run: |
+        heroku container:release web --app ${{ secrets.TF_VAR_HEROKU_APP_NAME }}
+      env:
+        HEROKU_API_KEY: ${{ secrets.TF_VAR_HEROKU_API_KEY }}
