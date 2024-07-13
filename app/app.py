@@ -3,10 +3,9 @@ import os
 
 app = Flask(__name__)
 
+
 # Define a route for the root URL '/'
 @app.route('/')
-
-
 def index():
     # Get GitHub run number from environment variable, defaulting to 'Local'
     github_run_number = os.getenv('GITHUB_RUN_NUMBER', 'Local')
