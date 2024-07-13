@@ -49,7 +49,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t flaskapp:${{ github.run_number }} .
+        docker build -t flaskapp:${{ github.run_number }} -f app/Dockerfile .
         docker tag flaskapp:${{ github.run_number }} registry.heroku.com/${{ secrets.TF_VAR_HEROKU_APP_NAME }}/web
 
     - name: Push Docker image to Heroku
