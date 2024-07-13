@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevOps Task</title>
+    <title>Welcome to My Web Page</title>
     <style>
         body {
             display: flex;
@@ -16,11 +16,7 @@
         }
         .container {
             text-align: center;
-        }
-        .welcome-text {
             color: black;
-            font-size: 24px;
-            margin-bottom: 20px;
         }
         .datetime {
             font-size: 18px;
@@ -30,19 +26,26 @@
 </head>
 <body>
     <div class="container">
-        <div class="welcome-text">
-            DevOps Task
+        <div class="title">
+            DevOps Task ({{ date }})
         </div>
-        <div class="datetime">
+        <div class="datetime" id="datetime">
             <!-- JavaScript to display current date and time -->
-            <script>
-                var today = new Date();
-                var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                var dateTime = date+' '+time;
-                document.write(dateTime);
-            </script>
         </div>
     </div>
+
+    <script>
+        function updateTime() {
+            var today = new Date();
+            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var dateTime = date+' '+time;
+            document.getElementById('datetime').innerHTML = dateTime;
+        }
+        // Initial call to display the time immediately
+        updateTime();
+        // Update the time every second
+        setInterval(updateTime, 1000);
+    </script>
 </body>
 </html>
