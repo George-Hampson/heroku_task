@@ -13,6 +13,7 @@
             margin: 0;
             background: linear-gradient(135deg, #f0f0f0, #a0a0a0);
             font-family: Arial, sans-serif;
+            overflow: hidden;
         }
         .container {
             text-align: center;
@@ -25,6 +26,7 @@
             transform: translateY(20px);
             animation: fadeIn 1s forwards;
             min-width: 300px;
+            z-index: 1;
         }
         @keyframes fadeIn {
             to {
@@ -59,6 +61,21 @@
             background-color: black;
             width: 0;
         }
+        .snake {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: red;
+            border-radius: 50%;
+            animation: moveSnake 5s infinite;
+        }
+        @keyframes moveSnake {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(80vw, 0); }
+            50% { transform: translate(80vw, 80vh); }
+            75% { transform: translate(0, 80vh); }
+            100% { transform: translate(0, 0); }
+        }
     </style>
 </head>
 <body>
@@ -74,6 +91,7 @@
             <div class="progress-bar-inner" id="progress-bar-inner"></div>
         </div>
     </div>
+    <div class="snake" id="snake"></div>
 
     <script>
         const timezones = [
