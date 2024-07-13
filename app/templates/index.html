@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to My Web Page</title>
+    <title>DevOps Task</title>
     <style>
         body {
             display: flex;
@@ -17,45 +17,21 @@
         .container {
             text-align: center;
         }
-        .welcome-text {
+        .title {
             color: black;
             font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .version {
-            font-size: 20px;
             margin-bottom: 20px;
         }
         .datetime {
             font-size: 18px;
             color: #05fc43;
-            margin-bottom: 20px;
-        }
-        .shortlog {
-            font-size: 18px;
-            color: #333;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-            text-align: left;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="welcome-text">
-            DevOps Task ({{ date }})
-        </div>
-        <div class="version">
-            Version: {{ version }}
+        <div class="title">
+            DevOps Task
         </div>
         <div class="datetime">
             <!-- JavaScript to display current date and time -->
@@ -66,22 +42,6 @@
                 var dateTime = date + ' ' + time;
                 document.write(dateTime);
             </script>
-        </div>
-        <div class="shortlog">
-            <table>
-                <tr>
-                    <th>Commit Count</th>
-                    <th>Author</th>
-                </tr>
-                {% for line in git_shortlog.split('\n') %}
-                {% if line %}
-                <tr>
-                    <td>{{ line.split()[0] }}</td>
-                    <td>{{ ' '.join(line.split()[1:]) }}</td>
-                </tr>
-                {% endif %}
-                {% endfor %}
-            </table>
         </div>
     </div>
 </body>
